@@ -70,6 +70,7 @@ function engineerQuestions() {
         let github = response.engineerGithub;
         let engineer = new Engineer(name, id, email, github);
         console.log(engineer);
+        last();
     });
 }
 
@@ -105,6 +106,7 @@ function internQuestions() {
         let school = response.internSchool;
         let intern = new Intern(name, id, email, school);
         console.log(intern);
+        last();
     });
 }    
 
@@ -123,10 +125,8 @@ function last(){
         console.log(response)
         if (response.memberType === "Engineer"){
             engineerQuestions();
-            last();
         }else if (response.memberType === "Intern"){
             internQuestions();
-            last();
         } else {
             console.log(finalHtml)
         }
