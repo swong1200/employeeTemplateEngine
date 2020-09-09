@@ -9,24 +9,50 @@ const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
+const { listenerCount } = require("process");
+const { type } = require("os");
 
 const questions = [
     {
-        type: input,
+        type: "input",
         message: "What is your manager's name? ",
-        name: managerName
-    }
+        name: "managerName"
+    },
     {
-        type: input,
+        type: "input",
         message: "What is your manager's ID number? ",
-        name: managerID
-    }
+        name: "managerID"
+    },
     {
-        type: input,
+        type: "input",
         message: "What is your manager's email address? ",
-        name: managerEmail
+        name: "managerEmail"
+    },
+    {
+        type: "input",
+        message: "What is your manager's office number? ",
+        name: "managerOfficeNumber"
+    },
+    {
+        type: "list",
+        message: "Which type of team member would you like to add? ",
+        choices: ["Engineer", "Intern", "I don't want to add any more."],
+        name: "memberType"
     }
-]
+];
+
+async function init() {
+    console.log("Please build your team...")
+    try {
+        const answers = await inquirer.prompt(questions);
+    } catch (err) {
+        console.log(err)
+    }
+
+
+}
+
+init();
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
 
@@ -36,7 +62,7 @@ const questions = [
 
 // After you have your html, you're now ready to create an HTML file using the HTML
 // returned from the `render` function. Now write it to a file named `team.html` in the
-// `output` folder. You can use the variable `outputPath` above target this location.
+// `output` folder. You can use the variable `outputPath` above to target this location.
 // Hint: you may need to check if the `output` folder exists and create it if it
 // does not.
 
