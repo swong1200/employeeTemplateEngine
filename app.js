@@ -12,47 +12,138 @@ const render = require("./lib/htmlRenderer");
 const { listenerCount } = require("process");
 const { type } = require("os");
 
+let finalHtml = []
+
+
 const questions = [
     {
         type: "input",
-        message: "What is your manager's name? ",
+        message: "What is your Manager's name? ",
         name: "managerName"
     },
     {
         type: "input",
-        message: "What is your manager's ID number? ",
+        message: "What is your Manager's ID number? ",
         name: "managerID"
     },
     {
         type: "input",
-        message: "What is your manager's email address? ",
+        message: "What is your Manager's email address? ",
         name: "managerEmail"
     },
     {
         type: "input",
-        message: "What is your manager's office number? ",
+        message: "What is your Manager's office number? ",
         name: "managerOfficeNumber"
+    }
+];
+
+const questionsEng = [
+    {
+        type: "input",
+        message: "What is your Engineer's name? ",
+        name: "engineerName"
     },
+    {
+        type: "input",
+        message: "What is your Engineer's ID number? ",
+        name: "engineerID"
+    },
+    {
+        type: "input",
+        message: "What is your Engineer's email address? ",
+        name: "engineerEmail"
+    },
+    {
+        type: "input",
+        message: "What is your Engineer's Github username? ",
+        name: "engineerGithub"
+    }
+]
+
+function engineerQuestions() {
+    inquirer.prompt(questionsEng).then((response) => {
+        // console.log(response)
+        let name = response.engineerName;
+        let id = response.engineerID;
+        let email = response.engineerEmail;
+        let github = response.engineerGithub;
+        let engineer = new Engineer(name, id, email, github);
+        console.log(engineer);
+    });
+}
+
+const questionsInt = [
+    {
+        type: "input",
+        message: "What is your Intern's name? ",
+        name: "internName"
+    },
+    {
+        type: "input",
+        message: "What is your Intern's ID number? ",
+        name: "internID"
+    },
+    {
+        type: "input",
+        message: "What is your Intern's email address? ",
+        name: "internEmail"
+    },
+    {
+        type: "input",
+        message: "What is your Intern's school? ",
+        name: "internSchool"
+    }
+]
+
+function internQuestions() {
+    inquirer.prompt(questionsInt).then((response) => {
+        // console.log(response)
+        let name = response.internName;
+        let id = response.internID;
+        let email = response.internEmail;
+        let school = response.internSchool;
+        let intern = new Intern(name, id, email, school);
+        console.log(intern);
+    });
+}    
+
+
+const finalQuestion = [
     {
         type: "list",
         message: "Which type of team member would you like to add? ",
         choices: ["Engineer", "Intern", "I don't want to add any more."],
         name: "memberType"
     }
-];
+]
 
-async function init() {
-    console.log("Please build your team...")
-    try {
-        const answers = await inquirer.prompt(questions);
-    } catch (err) {
-        console.log(err)
-    }
-
-
+function last(){
+    inquirer.prompt(finalQuestion).then((response) => {
+        console.log(response)
+        if (response.memberType === "Engineer"){
+            engineerQuestions();
+            last();
+        }else if (response.memberType === "Intern"){
+            internQuestions();
+            last();
+        } else {
+            console.log(finalHtml)
+        }
+    })
 }
 
-init();
+inquirer.prompt(questions).then((response) => {
+    // console.log(response);
+    let name = response.managerName;
+    let id = response.managerID;
+    let email = response.managerEmail;
+    let officeNumber = response.managerOfficeNumber;
+    let manager = new Manager(name, id, email, officeNumber)
+    console.log(manager);
+    last();
+});
+
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
 
@@ -74,4 +165,4 @@ init();
 // and Intern classes should all extend from a class named Employee; see the directions
 // for further information. Be sure to test out each class and verify it generates an
 // object with the correct structure and methods. This structure will be crucial in order
-// for the provided `render` function to work! ```
+// for the provided `render` function to work!
