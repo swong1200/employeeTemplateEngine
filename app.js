@@ -12,9 +12,10 @@ const render = require("./lib/htmlRenderer");
 const { listenerCount } = require("process");
 const { type } = require("os");
 
+// Array to push objects into
 let finalHtml = []
 
-
+// First set of questions
 const questions = [
     {
         type: "input",
@@ -38,6 +39,7 @@ const questions = [
     }
 ];
 
+// Engineer specific questions
 const questionsEng = [
     {
         type: "input",
@@ -61,19 +63,20 @@ const questionsEng = [
     }
 ]
 
+// Function to run engineer questions
 function engineerQuestions() {
     inquirer.prompt(questionsEng).then((response) => {
-        // console.log(response)
         let name = response.engineerName;
         let id = response.engineerID;
         let email = response.engineerEmail;
         let github = response.engineerGithub;
         let engineer = new Engineer(name, id, email, github);
-        console.log(engineer);
+        finalHtml.push(engineer);
         last();
     });
 }
 
+// Intern specific questions
 const questionsInt = [
     {
         type: "input",
@@ -97,20 +100,20 @@ const questionsInt = [
     }
 ]
 
+// Function to run intern questions
 function internQuestions() {
     inquirer.prompt(questionsInt).then((response) => {
-        // console.log(response)
         let name = response.internName;
         let id = response.internID;
         let email = response.internEmail;
         let school = response.internSchool;
         let intern = new Intern(name, id, email, school);
-        console.log(intern);
+        finalHtml.push(intern);
         last();
     });
 }    
 
-
+// Question to determine if there are more team members or not
 const finalQuestion = [
     {
         type: "list",
@@ -120,9 +123,9 @@ const finalQuestion = [
     }
 ]
 
+// Function to run the last question
 function last(){
     inquirer.prompt(finalQuestion).then((response) => {
-        console.log(response)
         if (response.memberType === "Engineer"){
             engineerQuestions();
         }else if (response.memberType === "Intern"){
@@ -133,14 +136,14 @@ function last(){
     })
 }
 
+// Function to begin app and construct the manager
 inquirer.prompt(questions).then((response) => {
-    // console.log(response);
     let name = response.managerName;
     let id = response.managerID;
     let email = response.managerEmail;
     let officeNumber = response.managerOfficeNumber;
     let manager = new Manager(name, id, email, officeNumber)
-    console.log(manager);
+    finalHtml.push(manager);
     last();
 });
 
