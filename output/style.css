@@ -1,0 +1,13 @@
+body {
+    background-color: #000000;
+}
+.team-heading {
+    background-color: #4d4d4d;
+    color: #ffffff;
+}
+.card-header {
+    background-color: #04afff;
+}
+.card-body {
+    background-color: #4d4d4d;
+}

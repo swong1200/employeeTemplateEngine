@@ -134,6 +134,7 @@ function last() {
     } else if (response.memberType === "Intern") {
       internQuestions();
     } else {
+      // Renders the html
       fs.writeFile(outputPath, render(employees), (err) => {
         if (err) throw err;
         console.log("The file was been written");
